@@ -88,7 +88,11 @@ All CNNs have similar overfitting pattern start from around the 10th epoch. Best
 
 #### **(d)**
 
+![](./learning_curve_lr_mmt_cnn_Cross_entropy_error_CNN.png)
+![](./learning_curve_lr_mmt_cnn_Misclassification_error_CNN.png)
 
+
+![](./4(d)_table.png)
 
 
 <br>
@@ -97,7 +101,7 @@ All CNNs have similar overfitting pattern start from around the 10th epoch. Best
 ### **5. (5 points) Redo part 3(a) - 3(d) with your favorite deep learning architecture (e.g., introducing batch normalization, introducing dropout in training) to beat the performance of SVM with Gaussian Kernel, i.e., to have a test error rate lower than 1.4%.**
 <br>
 
-We use Lenet5 and Resnet34 for this question. 
+We use Lenet5-like CNN and Resnet34 for this question. 
 
 
 
