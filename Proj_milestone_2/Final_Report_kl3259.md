@@ -64,6 +64,32 @@ We trained the best model with random seed 42. According to these 2 figures, bot
 ### **4. (5 points) Redo part 3(a) - 3(d) with a CNN i.e. with one 2-D convolutional layers → Relu activation → Maxpooling with appropriate hyperparameters. Compare the best result from the single layer neural network and the CNN, what could you conclude?**
 <br>
 
+#### **(a) & (b)**
+
+The structure of a single convolutional layer and MaxPooling layer CNN is shown above. 
+
+
+![](./learning_curve_cnn_Cross_entropy_error_CNN.png)
+![](./learning_curve_cnn_Misclassification_error_CNN.png)
+The learning curve of CNNS are listed above. 
+
+
+
+#### **(c)**
+
+![](./4(c)_table.png)
+Model comparison between CNNs can be based on this table. 
+
+
+All CNNs have similar overfitting pattern start from around the 10th epoch. Best model is CNN with seed 42. Lowest test cross-entropy error and lowest mean misclassification error. 
+
+
+![](./param_best_model_cnn.png)
+
+#### **(d)**
+
+
+
 
 <br>
 
@@ -71,7 +97,7 @@ We trained the best model with random seed 42. According to these 2 figures, bot
 ### **5. (5 points) Redo part 3(a) - 3(d) with your favorite deep learning architecture (e.g., introducing batch normalization, introducing dropout in training) to beat the performance of SVM with Gaussian Kernel, i.e., to have a test error rate lower than 1.4%.**
 <br>
 
-We use Lenet5 and Resnet50 in this question. 
+We use Lenet5 and Resnet34 for this question. 
 
 
 
