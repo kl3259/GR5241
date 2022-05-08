@@ -54,7 +54,7 @@ This is the visualization of the parameters learned from the best model with see
 
 ![](./learning_curve_lr_mmt_Cross_entropy_error.png)
 ![](./learning_curve_lr_mmt_Misclassification_error.png)
-
+We trained the best model with random seed 42. According to these 2 figures, both cross-entropy error and mean misclassification error have the same pattern defined by the combination of learning rate and momentum. Larger learning rate . With fixed learning rate, 
 
 
 
