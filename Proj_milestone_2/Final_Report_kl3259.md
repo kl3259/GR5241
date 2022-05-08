@@ -101,7 +101,57 @@ All CNNs have similar overfitting pattern start from around the 10th epoch. Best
 ### **5. (5 points) Redo part 3(a) - 3(d) with your favorite deep learning architecture (e.g., introducing batch normalization, introducing dropout in training) to beat the performance of SVM with Gaussian Kernel, i.e., to have a test error rate lower than 1.4%.**
 <br>
 
-We use Lenet5-like CNN and Resnet34 for this question. 
+We use Lenet5-like CNN for this question, hereinafter called them lenet. We also add dropout and batch-normalization in this question. 
+
+#### **(a) & (b)**
+<br>
+
+![](./learning_curve_lenet_Cross_entropy_error_LeNet.png)
+![](./learning_curve_lenet_Misclassification_error_LeNet.png)
+
+
+#### **(c)**
+<br>
+
+![](./5(c)_table.png)
+All lenets are overfitting, so we pick the best model to be lenet with seed 4422, since it has nearly the highest test accuracy while with the lowest test cross-entropy error, which is more robust in different metrics. 
+
+
+
+#### **(d)**
+<br>
+
+
+
+<br>
+
+## **Part 5: More About Deep Learning**
+
+<br>
+
+### **6. (1 points) As a warm up question, load the data and plot a few examples. Decide if the pixels were scanned out in row-major or column-major order. What is the relationship between the 2 digits and the last coordinate of each line?**
+
+<br>
+
+
+
+
+
+
+### **7. (8 points) Repeat part 3(a) - 3(d) with at least two of your favorite deep learning architecture (e.g., introducing batch normalization, introducing dropout in training) with respect to with train.txt, val.txt and test.txt. In particular,**
+    (a) Using train.txt to train your models.
+    (b) Using the validation error (i.e., the performance on val.txt) to select the best model.
+    (c) Report the generalization error (i.e., the performance on test.txt) for the model you picked. How would you compare the test errors you obtained with respect to the original MNIST data? Explain why you cannot obtain a test error lower than 1%.
+
+<br>
+
+We use Lenet5-like CNN and Resnet34 for this question, hereinafter called them lenet and resnet respectively. We also add dropout and batch-normalization in this question. 
+
+
+
+
+
+
 
 
 
