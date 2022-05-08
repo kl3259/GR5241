@@ -71,7 +71,7 @@ We trained the best model with random seed 42. According to these 2 figures, bot
 ### **5. (5 points) Redo part 3(a) - 3(d) with your favorite deep learning architecture (e.g., introducing batch normalization, introducing dropout in training) to beat the performance of SVM with Gaussian Kernel, i.e., to have a test error rate lower than 1.4%.**
 <br>
 
-
+We use Lenet5 and Resnet50 in this question. 
 
 
 
