@@ -47,11 +47,15 @@ We select the best model based on mean misclassification error on test set which
 ![](./param_best_model.png)
 This is the visualization of the parameters learned from the best model with seed 42. It's clear that the most frequent pattern is the feature like a shape of "3" with a shade like a shape of "8". There are also some chaotic features and some features with only part of the number or strokes shown in the restored features. 
 
-
 <br>
 
 #### **(d)** Try different values of the learning rate. You should start with a learning rate of 0.1. You should then reduce it to .01, and increase it to 0.2 and 0.5. What happens to the convergence properties of the algorithm (looking at both average cross entropy and % incorrect)? Try momentum of 0.0, 0.5, 0.9. How does momentum affect convergence rate? How would you choose the best value of these parameters?
 <br>
+
+![](./learning_curve_lr_mmt_Cross_entropy_error.png)
+![](./learning_curve_lr_mmt_Misclassification_error.png)
+
+
 
 
 
