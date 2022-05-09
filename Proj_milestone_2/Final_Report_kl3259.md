@@ -179,7 +179,7 @@ since this model nearly has no overfitting in its learning curve, and has the lo
         (5): Linear(in_features=84, out_features=10, bias=True)
     )
     )
-We use Lenet5-like CNN for this question, hereinafter called them lenet. I introduced batch-normalization in both of the convolutional and fully connected part. Evolved from the single convolutional layer CNN, the classic LeNet5 includes more convolutional, maxpooling and fully connected layers, which aims to improve the performance of feature extraction. More parameters makes this lenet more complex and thus would be suitable for image classification. The $28 \times 28$ image was shaped in a sequence: $(6,28,28)$ -> $(6,14,14)$ -> $(16,10,10)$ -> $(16,5,5)$ -> $16 \times 5 \times 5$ -> $120$ -> $84$ -> $10$.
+We use Lenet5-like CNN for this question, hereinafter called it lenet. I introduced batch-normalization in both of the convolutional and fully connected part. Evolved from the single convolutional layer CNN, the classic LeNet5 includes more convolutional, maxpooling and fully connected layers, which aims to improve the performance of feature extraction. More parameters makes this lenet more complex and thus would be suitable for image classification. The $28 \times 28$ image was shaped in a sequence: $(6,28,28)$ -> $(6,14,14)$ -> $(16,10,10)$ -> $(16,5,5)$ -> $16 \times 5 \times 5$ -> $120$ -> $84$ -> $10$.
 
 #### **(a) & (b)**
 <br>
@@ -187,9 +187,7 @@ We use Lenet5-like CNN for this question, hereinafter called them lenet. I intro
 <img src = "./learning_curve_lenet_Cross_entropy_error_LeNet.png" height = "500"/>
 <img src = "./learning_curve_lenet_Misclassification_error_LeNet.png" height = "500"/>
 
-The learning curves of the LeNet5-like CNN are shown above. $N_{batch} = 100$, $lr = 0.0005$, $seeds = \{42, 422, 442, 4422, 4442\}$. I chose the $N_{epochs} = 30$ because the lenet is foreseeable more powerful than the single convolutional layer CNN. More parameters would make it overfitting easily and early. As we can see, lenets start overfitting at around the 5th epoch and easily attain a level of test accuracy of around 99%. Other remaining patterns of overfitting are the same as we found in questions 3 and 4. 
-
-One difference is that the test average misclassification error seems to be more unstable than the average cross-entropy error. 
+The learning curves of the LeNet5-like CNN are shown above. $N_{batch} = 100$, $lr = 0.0005$, $seeds = \{42, 422, 442, 4422, 4442\}$. I chose the $N_{epochs} = 30$ because the lenet is foreseeable more powerful than the single convolutional layer CNN. More parameters would make it overfitting easily and early. As we can see, lenets start overfitting at around the 5th epoch and easily attain a level of test accuracy of around 99%. The convergence can be attained instantly within 4 epochs. One difference is that the test average misclassification error seems to be more unstable than the average cross-entropy error. Other remaining patterns of overfitting are the same as we found in questions 3 and 4. 
 
 <br>
 
@@ -201,19 +199,29 @@ One difference is that the test average misclassification error seems to be more
 The table of evaluation metrics of lenets is shown above. 
 Since all lenets are overfitting, so we pick the best model to be lenet with seed 4422, since it has nearly the highest test accuracy of 99.13% while with the lowest test cross-entropy error 0.028544, which is more robust against overfitting. 
 
-![](./param_best_model_lenet_conv_kernel_0.png)
-![](./param_best_model_lenet_samples_conv_kernel_1.png)
+<img src = "./param_best_model_lenet_conv_kernel_0.png" height = "400"/>
+<img src = "./param_best_model_lenet_samples_conv_kernel_1.png" height = "400" />
+
+In this question I plotted the first and second convolutional kernels. The figure named kernel_0 shows all the 6 kernels learnt by lenet. For the second convolutional layer, I sampled 6 kernels to represent their structures. We can see that these kernels mainly contain the local structures still like part of strokes while remain uncorrelated. 
 
 <br>
 
 #### **(d)**
 <br>
 
-![](./learning_curve_lr_mmt_lenet_Cross_entropy_error_LeNet.png)
-![](./learning_curve_lr_mmt_lenet_Misclassification_error_LeNet.png)
+<img src = "./learning_curve_lr_mmt_lenet_Cross_entropy_error_LeNet.png" height = "1200"/>
+<img src = "./learning_curve_lr_mmt_lenet_Misclassification_error_LeNet.png" height = "1200"/>
 
+The learning curves of the best lenet with respect to two types of errors on the learning rate and momentum grid are shown above. 
 
-![](./5(d)_table.png)
+The parameters grid is :$lr = \{0.0001, 0.0005, 0.001, 0.002, 0.005, 0.01\}$, $momentum = \{0.0, 0.5, 0.9\}$, $seed = 4422$. Lenets have the similar property with CNNs(i.e. Learning rate should be small, otherwise there would be great fluctuations and even diverge. With fixed learning rate, larger momentum would be more unstable. ) However, due to the model complexity a lenet has, we find that it can always reach the 99% test accuracy and nearly 0 training loss when it converges in 30 epochs, no matter what momentum and learning rate we use, this represents the advantage that lenet have a better structure over single layer CNNs. 
+
+<img src = "./5(d)_table.png" height = "500"/>
+
+The final grid search result is shown in this table. **Most of the test results with a test accuracy over 99% already beat the SVM with Gaussian kernel.** We simply choose:
+* $lr = 0.0001, momentum = 0.9, seed = 4422$
+
+as our best lenet with lowest test cross-entropy error 0.032757	and highest test accuracy 99.22%. 
 
 <br>
 
