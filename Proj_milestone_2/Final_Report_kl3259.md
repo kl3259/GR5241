@@ -68,15 +68,35 @@ This is the visualization of the parameters learned from the best model with see
 
 ![](./learning_curve_lr_mmt_Cross_entropy_error.png)
 ![](./learning_curve_lr_mmt_Misclassification_error.png)
-We trained the best model with random seed 42 on the grid of learning rate $lr = \{0.01, 0.02, 0.05, 0.1, 0.2, 0.5\}$ and momentum $momemtum = \{0.0, 0.5, 0.9\}$. According to these 2 figures, both cross-entropy error and mean misclassification error have the same learning pattern when the learning rate and momentum are the same. Larger learning rate would lead to faster learning process and earlier start of overfitting. With a fixed learning rate, the larger the momentum is, the more but unstable learning curve would show up
+We trained the best model with random seed 42 on the grid of learning rate $lr = \{0.01, 0.02, 0.05, 0.1, 0.2, 0.5\}$ and momentum $momemtum = \{0.0, 0.5, 0.9\}$. 
 
+According to these 2 figures, both cross-entropy error and mean misclassification error have the same learning pattern when the learning rate and momentum are the same. With fixed momentum, a larger learning rate would lead to higher error rate and higher gap between training and testing error in terms of both the cross-entropy error and misclassification error. With a fixed learning rate, as the momentum increases, we can see that the learning curves are becoming less stable and even cannot make optimization on the loss function or even diverge. One important thing here is that single layer neural networks with lower learning rates seem to have better convergence rates than those with large learning rates. 
 
-
+![](./3(d)_table.png)
+This table shows the evaluation metrics of all single layer NNs trained on the learning rate and momentum grid with the best random seed 42 picked in 3(c). The best parameters should be chosen by the learning curve that have stable learning process and higher test accuracy and lower test cross-entropy error. Since the value of average cross-entropy error on test set is sensitive to overfitting, we can choose the best single layer neural network with parameters:
+* Seed: 42, learning rate: 0.01, momentum: 0.0
+since it got the lowest test average cross-entropy error and the highest test accuracy. 
 
 <br>
 
 ### **4. (5 points) Redo part 3(a) - 3(d) with a CNN i.e. with one 2-D convolutional layers → Relu activation → Maxpooling with appropriate hyperparameters. Compare the best result from the single layer neural network and the CNN, what could you conclude?**
 <br>
+
+    The structure of the single convolutional layer CNN is:
+    CNN(
+    (conv): Sequential(
+        (0): Conv2d(1, 16, kernel_size=(5, 5), stride=(1, 1), padding=(2, 2))
+        (1): ReLU()
+        (2): MaxPool2d(kernel_size=(2, 2), stride=2, padding=0, dilation=1, ceil_mode=False)
+    )
+    (flatten): Flatten(start_dim=1, end_dim=-1)
+    (single_layer_nn): Sequential(
+        (0): Linear(in_features=3136, out_features=10, bias=True)
+    )
+    )
+
+
+
 
 #### **(a) & (b)**
 <br>
