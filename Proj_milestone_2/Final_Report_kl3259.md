@@ -233,34 +233,111 @@ as our best lenet with lowest test cross-entropy error 0.032757	and highest test
 
 <br>
 
-![](./two_digits.png)
+<img src = "./two_digits.png" height = "500"/>
 
-row order!
-
-the labels are the sum of the two digits!
-
-
-
-
-### **7. (8 points) Repeat part 3(a) - 3(d) with at least two of your favorite deep learning architecture (e.g., introducing batch normalization, introducing dropout in training) with respect to with train.txt, val.txt and test.txt. In particular,**
-    (a) Using train.txt to train your models.
-    (b) Using the validation error (i.e., the performance on val.txt) to select the best model.
-    (c) Report the generalization error (i.e., the performance on test.txt) for the model you picked. How would you compare the test errors you obtained with respect to the original MNIST data? Explain why you cannot obtain a test error lower than 1%.
+I split the last column as the labels for this new data. The plot is made by extracting each row of the first 1568 entries and using NumPy.reshape() function to reshape them into $28 \times 56$ array. Since the NumPy function is in a row-oriented order, so the new data is stored in row order. By observing the labels, I found that the labels are the sum of the two digits shown in one picture. 
 
 <br>
 
-We use Lenet5-like CNN and AlexNet-like CNN for this question, hereinafter called them lenet and alexnet respectively. We also introduced dropout and batch-normalization in this question. 
+### **7. (8 points) Repeat part 3(a) - 3(d) with at least two of your favorite deep learning architecture (e.g., introducing batch normalization, introducing dropout in training) with respect to with train.txt, val.txt and test.txt. In particular,**
+> (a) Using train.txt to train your models.
+> 
+> (b) Using the validation error (i.e., the performance on val.txt) to select the best model.
+> 
+> (c) Report the generalization error (i.e., the performance on test.txt) for the model you picked. How would you compare the test errors you obtained with respect to the original MNIST data? Explain why you cannot obtain a test error lower than 1%.
+
+<br>
+
+**LeNet**
+
+    lenet_alt(
+    (conv): Sequential(
+        (0): Conv2d(1, 6, kernel_size=(5, 5), stride=(1, 1), padding=(2, 2))
+        (1): ReLU()
+        (2): MaxPool2d(kernel_size=(2, 2), stride=2, padding=0, dilation=1, ceil_mode=False)
+        (3): BatchNorm2d(6, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (4): Conv2d(6, 16, kernel_size=(5, 5), stride=(1, 1))
+        (5): ReLU()
+        (6): MaxPool2d(kernel_size=(2, 2), stride=2, padding=0, dilation=1, ceil_mode=False)
+    )
+    (dropout): Dropout(p=0.25, inplace=False)
+    (flatten): Flatten(start_dim=1, end_dim=-1)
+    (fully_conncet): Sequential(
+        (0): Linear(in_features=960, out_features=512, bias=True)
+        (1): ReLU()
+        (2): BatchNorm1d(512, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (3): Linear(in_features=512, out_features=128, bias=True)
+        (4): ReLU()
+        (5): Linear(in_features=128, out_features=19, bias=True)
+    )
+    )
+
+<br>
+
+**AlexNet**
+
+    alexnet(
+    (conv): Sequential(
+        (0): Conv2d(1, 32, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+        (1): ReLU()
+        (2): MaxPool2d(kernel_size=2, stride=2, padding=0, dilation=1, ceil_mode=False)
+        (3): BatchNorm2d(32, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (4): Conv2d(32, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+        (5): ReLU()
+        (6): MaxPool2d(kernel_size=2, stride=2, padding=0, dilation=1, ceil_mode=False)
+        (7): Conv2d(64, 128, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+        (8): Conv2d(128, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+        (9): Conv2d(256, 256, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+        (10): ReLU()
+        (11): MaxPool2d(kernel_size=3, stride=2, padding=0, dilation=1, ceil_mode=False)
+    )
+    (flatten): Flatten(start_dim=1, end_dim=-1)
+    (fully_connect): Sequential(
+        (0): Dropout(p=0.5, inplace=False)
+        (1): Linear(in_features=4608, out_features=1024, bias=True)
+        (2): ReLU()
+        (3): Linear(in_features=1024, out_features=512, bias=True)
+        (4): ReLU()
+        (5): Linear(in_features=512, out_features=19, bias=True)
+    )
+    )
+
+We use Lenet5-like CNN and AlexNet-like CNN for this question, hereinafter called them lenet and alexnet respectively. I also introduced dropout and batch-normalization in this question. The lenet is updated by adding a dropout layer before the flatten layer with a dropout probability 0.25 for slight regularization. Since this question has more features to extract, I implemented a modified AlexNet to try to achieve better results than lenet since it has more complex structure, which is designed for more complex hypotheses. To fit the alexnet for the MNIST dataset, I changed the kernel size of maxpooling layer from 3 to 2, and reduced the number of kernels in convolutional to $64, 128, 256$ rather than $96, 256, 384$. The fully connected layer is also simplified, their size is down to $1024, 512$. The output layer size is assigned to 19, which is the number of classes in this new dataset. 
 
 #### **(a) & (b)**
 <br>
 
+**LeNet**
+
+<img src = "./learning_curve_lenet_alt_Cross_entropy_error_LeNet_alt.png" height = "500"/>
+<img src = "./learning_curve_lenet_alt_Misclassification_error_LeNet_alt.png" height = "500"/>
+
+The learning curve of updated lenet is shown above. 
+
+The parameters are: $lr = 0.0005$, $seeds = \{42, 422, 442, 4222, 4422, 4442\}$, $momentum = 0$, $N_{batch} = 100$, $N_{epochs} = 30$. We can see that the updated lenet is stable and the overfitting is limited, there'are no increment of validation cross-entropy error. All different random seeds yield similar learning curve. The validation loss functions of the udpated lenet is a little higher than working on original MNIST. 
+
+
+**AlexNet**
+
+<img src = "./learning_curve_alexnet_Cross_entropy_error_AlexNet.png" height = "500"/>
+<img src = "./learning_curve_alexnet_Misclassification_error_AlexNet.png" height = "500"/>
+
+The learning curve of alexnet is shown above. 
+
+Alexnets have a unique learning curve, as their loss function on both training set and the validation set remain high at the first 5 - 10 epochs, and then rapidly decrease to a level under 0.5 average cross-entropy error and 10% average misclassification error on both training and validation set. In the whole process, alexnets are extremely stable and faced no overfitting. This demonstrates the powerful learning ability and good structure of alexnet. 
 
 #### **(c)**
 <br>
 
-![](./7(c)_lenet_alt_table.png)
+**LeNet**
+
+<img src = "./7(c)_lenet_alt_table.png" height = "150"/>
+
 Best lenet_alt is based on seed 42. 
 
+**AlexNet**
+
+<img src = "./7(c)_alexnet_table.png" height = "150"/>
 
 
 
@@ -272,9 +349,17 @@ Best lenet_alt is based on seed 42.
 #### **(d)**
 <br>
 
+
+
+**LeNet**
+
+
 ![](./7(d)_lenet_alt_table.png)
 
+**AlexNet**
+
 ![](./7(d)_alexnet_table.png)
+
 
 <br>
 
@@ -290,6 +375,9 @@ Best lenet_alt is based on seed 42.
     Generalization result of AlexNet:
     Test Accuracy:  97.24%|Test Loss - cross entropy:    0.152874|Test Loss - mis-clf:    0.027600
 
+**LeNet**
 
+
+**AlexNet**
 
 
