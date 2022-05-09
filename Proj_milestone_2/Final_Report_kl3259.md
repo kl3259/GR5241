@@ -65,7 +65,7 @@ We trained the best model with random seed 42. According to these 2 figures, bot
 <br>
 
 #### **(a) & (b)**
-
+<br>
 The structure of a single convolutional layer and MaxPooling layer CNN is shown above. 
 
 
@@ -73,10 +73,10 @@ The structure of a single convolutional layer and MaxPooling layer CNN is shown 
 ![](./learning_curve_cnn_Misclassification_error_CNN.png)
 The learning curve of CNNS are listed above. 
 
-
+<br>
 
 #### **(c)**
-
+<br>
 ![](./4(c)_table.png)
 Model comparison between CNNs can be based on this table. 
 
@@ -85,6 +85,8 @@ All CNNs have similar overfitting pattern start from around the 10th epoch. Best
 
 
 ![](./param_best_model_cnn.png)
+
+<br>
 
 #### **(d)**
 
@@ -109,6 +111,7 @@ We use Lenet5-like CNN for this question, hereinafter called them lenet. We also
 ![](./learning_curve_lenet_Cross_entropy_error_LeNet.png)
 ![](./learning_curve_lenet_Misclassification_error_LeNet.png)
 
+<br>
 
 #### **(c)**
 <br>
@@ -119,7 +122,7 @@ All lenets are overfitting, so we pick the best model to be lenet with seed 4422
 ![](./param_best_model_lenet_conv_kernel_0.png)
 ![](./param_best_model_lenet_samples_conv_kernel_1.png)
 
-
+<br>
 
 #### **(d)**
 <br>
