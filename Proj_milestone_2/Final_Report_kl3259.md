@@ -143,7 +143,10 @@ All lenets are overfitting, so we pick the best model to be lenet with seed 4422
 
 <br>
 
+![](./two_digits.png)
 
+row order!
+the labels are the sum of the two digits!
 
 
 
@@ -157,14 +160,17 @@ All lenets are overfitting, so we pick the best model to be lenet with seed 4422
 
 We use Lenet5-like CNN and Resnet34 for this question, hereinafter called them lenet and resnet respectively. We also add dropout and batch-normalization in this question. 
 
+#### **(a) & (b)**
+<br>
+
+
+#### **(c)**
+<br>
 
 
 
-
-
-
-
-
+#### **(d)**
+<br>
 
 
 
