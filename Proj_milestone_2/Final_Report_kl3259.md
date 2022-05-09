@@ -172,11 +172,15 @@ We use Lenet5-like CNN and Resnet34 for this question, hereinafter called them l
 Best lenet_alt is based on seed 42. 
 
 
+
 #### **(d)**
 <br>
 
 
+<br>
 
+#### **Generalization Error**
+<br>
 
 
 
