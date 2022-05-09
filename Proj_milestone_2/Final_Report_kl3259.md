@@ -124,7 +124,11 @@ All lenets are overfitting, so we pick the best model to be lenet with seed 4422
 #### **(d)**
 <br>
 
+![](./learning_curve_lr_mmt_lenet_Cross_entropy_error_LeNet.png)
+![](./learning_curve_lr_mmt_lenet_Misclassification_error_LeNet.png)
 
+
+![](./5(d)_table.png)
 
 <br>
 
