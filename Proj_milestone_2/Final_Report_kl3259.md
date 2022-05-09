@@ -28,7 +28,8 @@ In this case we only construct one hidden layer with 784 original inputs, 100 ne
 #### **(a)** Plot the average training cross-entropy error (sum of the cross-entropy error terms over the training dataset divided by the total number of training example) on the y-axis vs. the epoch number (x-axis). On the same figure, plot the average validation cross-entropy error function. Examine the plots of training error and validation/test error (generalization). How does the network’s performance differ on the training set versus the validation set during learning? Use the plot of training and testing error curves to support your argument.
 <br>
 
-![](./learning_curve_Cross_entropy_error.png)
+<img src = "./learning_curve_Cross_entropy_error.png" height = "500" />
+
 The leanring curves with respect to cross-entropy error of all 6 random initializations are shown above. 
 
 In this question, we set the learning rate $l = 0.1$, and the number of epochs equals to 200 with batch size $N_{batch} = 64$. Since we used a setup that requires sufficient epochs to attain a status like overfitting, we can note that most of the training processes have a pattern of overfitting. The training errors are smaller than the test error. In axes of seed 42, 422, 442, 4422, and 4442, the cross-entropy loss started from different values with different initializations and decreased quickly in the first 25 epochs, then as the number of training epochs increased, the cross-entropy error slowly decreased to 0 with some fluctuations while the validation(test set here) cross-entropy error slightly increased from 0.2 to around 0.3, so these plots show that Their corresponding training process involves overfitting. In other words, the single neural networks began to become weaker for generalization while still working well on the training set.
@@ -40,7 +41,8 @@ Also note that the training process with seed 4222 got an unique learning curve,
 #### **(b)** We could implement an alternative performance measure to the cross entropy, the mean miss-classification error. We can consider the output correct if the correct label is given a higher probability than the incorrect label, then count up the total number of examples that are classified incorrectly (divided by the total number of examples) according to this criterion for training and validation respectively, and maintain this statistic at the end of each epoch. Plot the classification error (in percentage) vs. number of epochs, for both training and testing. Do you observe a different behavior compared to the behavior of the cross-entropy error function?
 <br>
 
-![](./learning_curve_Misclassification_error.png)
+<img src = "./learning_curve_Misclassification_error.png" height = "500"/>
+
 The learning curves with respect to misclassification error of all 6 random initializations are shown above. 
 
 The learning curves of average misclassification error are pretty similar to learning curves based on cross-entropy error. They have the same quick decreasing sections in the first 25 epochs and overfitting sections corresponding to the remaining epochs, and all the fluctuations are at the same pace. Seed 4222 also got cliff drops in this learning curve and takes a longer time to earn the same performance as other neural networks. 
@@ -53,12 +55,14 @@ However, note that the overfitting parts of these plots are different from those
 #### **(c)** Visualize your best results of the learned W as one hundred 28×28 images (plot all filters as one image, as we have seen in class). Do the learned features exhibit any structure?
 <br>
 
-![](./3(c)_table.png)
+<img src = "./3(c)_table.png" height = "150" />
+
 The table of evaluation metrics is shown above. 
 
 We select the best model based on mean misclassification error on test set standing for the test accuracy and the cross-entropy error on test set. Singel layer neural network with seed 42 has the lowest mean test misclassification error and relatively low test cross-entropy error, so we identify it as the best model. 
 
-![](./param_best_model.png)
+<img src = "./param_best_model.png" height = "600"/>
+
 This is the visualization of the parameters learned from the best model with seed 42. It's clear that the most frequent pattern is the feature like a shape of "3" with a shade like a shape of "8". There are also some chaotic features and some features with only part of the number or strokes shown in the restored features. The patterns like "3" frequently appeared might be the result from severely overfitting, as the learning process led the weights to a local optimal that mainly recognizing "3" or "8". 
 
 <br>
@@ -66,15 +70,19 @@ This is the visualization of the parameters learned from the best model with see
 #### **(d)** Try different values of the learning rate. You should start with a learning rate of 0.1. You should then reduce it to .01, and increase it to 0.2 and 0.5. What happens to the convergence properties of the algorithm (looking at both average cross entropy and % incorrect)? Try momentum of 0.0, 0.5, 0.9. How does momentum affect convergence rate? How would you choose the best value of these parameters?
 <br>
 
-![](./learning_curve_lr_mmt_Cross_entropy_error.png)
-![](./learning_curve_lr_mmt_Misclassification_error.png)
+<img src = "./learning_curve_lr_mmt_Cross_entropy_error.png" height = "1200"/>
+
+<img src = "./learning_curve_lr_mmt_Misclassification_error.png" height = "1200"/>
+
 We trained the best model with random seed 42 on the grid of learning rate $lr = \{0.01, 0.02, 0.05, 0.1, 0.2, 0.5\}$ and momentum $momemtum = \{0.0, 0.5, 0.9\}$. 
 
 According to these 2 figures, both cross-entropy error and mean misclassification error have the same learning pattern when the learning rate and momentum are the same. With fixed momentum, a larger learning rate would lead to higher error rate and higher gap between training and testing error in terms of both the cross-entropy error and misclassification error. With a fixed learning rate, as the momentum increases, we can see that the learning curves are becoming less stable and even cannot make optimization on the loss function or even diverge. One important thing here is that single layer neural networks with lower learning rates seem to have better convergence rates than those with large learning rates. 
 
-![](./3(d)_table.png)
+<img src = "./3(d)_table.png" height = "400"/>
+
 This table shows the evaluation metrics of all single layer NNs trained on the learning rate and momentum grid with the best random seed 42 picked in 3(c). The best parameters should be chosen by the learning curve that have stable learning process and higher test accuracy and lower test cross-entropy error. Since the value of average cross-entropy error on test set is sensitive to overfitting, we can choose the best single layer neural network with parameters:
-* Seed: 42, learning rate: 0.01, momentum: 0.0
+* $Seed = 42, lr = 0.01, momentum = 0.0$
+
 since it got the lowest test average cross-entropy error and the highest test accuracy. 
 
 <br>
@@ -95,17 +103,18 @@ since it got the lowest test average cross-entropy error and the highest test ac
     )
     )
 
-
-
+We define the only convolutional layer by using $5 \times 5$ kernel size and a padding of 2 in both vertical and horizontal direction and moves the convolution kernel with stride 1. This conv2d layer would output the data in shape $(16, 1, 28, 28)$. Then after ReLU activation, the features would be reduced to $(16, 1, 14, 14)$ by the MaxPooling layer and flattened by the Flatten layer in to a fully connected layer. The number of output neurons is set to be the number of classes. 
 
 #### **(a) & (b)**
 <br>
-The structure of a single convolutional layer and MaxPooling layer CNN is shown above. 
 
+<img src = "./learning_curve_cnn_Cross_entropy_error_CNN.png" height = "500"/>
 
-![](./learning_curve_cnn_Cross_entropy_error_CNN.png)
-![](./learning_curve_cnn_Misclassification_error_CNN.png)
-The learning curve of CNNS are listed above. 
+<img src = "./learning_curve_cnn_Misclassification_error_CNN.png" height = "500"/>
+
+The learning curves of CNNs are listed above. The training parameters are: $lr = 0.001$, $N_{batch} = 100$, $N_{epoch} = 80$, $momentum = 0$. I reduced the number of epochs since the CNN is more suitable for computer vision problems, thus it would perform better than single layer NN, we can observe the overfitting under fewer epochs. 
+
+We can still see that the patterns in single layer NNs' learning curve also appear in CNNs' figure. The single convolutional layer CNN has the convergence rate as same as the single layer NN, both types can attain a status of overfitting at around the 20th epoch. Note that both two types of training errors and testing errors are lower than single layer NN when the training processes are finished, which conforms with the conclusion: CNN has better performance on image classification than single layer NN. The main reason is that its convolutional layer can work as a feature extractor and maxpooling layer can be interpreted as dimension reduction. 
 
 <br>
 

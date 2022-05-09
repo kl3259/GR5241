@@ -373,38 +373,142 @@ code {
 <br>
 <h3 id="3-5-points-train-a-single-layer-neural-network-with-100-hidden-units-eg-with-architecture-784-%E2%86%92-100-%E2%86%92-10-you-should-use-the-initialization-scheme-discussed-in-class-and-choose-a-reasonable-learning-rate-ie-01-train-the-network-repeatedly-more-than-5-times-using-different-random-seeds-so-that-each-time-you-start-with-a-slightly-different-initialization-of-the-weights-run-the-optimization-for-at-least-150-epochs-each-time-if-you-observe-underfitting-continue-training-the-network-for-more-epochs-until-you-start-seeing-overfitting"><strong>3. (5 points) Train a single layer neural network with 100 hidden units (e.g. with architecture: 784 → 100 → 10). You should use the initialization scheme discussed in class and choose a reasonable learning rate (i.e. 0.1). Train the network repeatedly (more than 5 times) using different random seeds, so that each time, you start with a slightly different initialization of the weights. Run the optimization for at least 150 epochs each time. If you observe underfitting, continue training the network for more epochs until you start seeing overfitting.</strong></h3>
 <br>
+<pre><code>The structure of single layer neural network is:
+single_layer_NN(
+(flatten): Flatten(start_dim=1, end_dim=-1)
+(single_layer_nn): Sequential(
+(0): Linear(in_features=784, out_features=100, bias=True)
+(1): Sigmoid()
+(2): Linear(in_features=100, out_features=10, bias=True)
+)
+)
+</code></pre>
+<p>In this case we only construct one hidden layer with 784 original inputs, 100 neurons and the sigmoid function as activation function. The output size is 10 which corresponds to the number of classes in MNIST dataset.</p>
+<br>
 <h4 id="a-plot-the-average-training-cross-entropy-error-sum-of-the-cross-entropy-error-terms-over-the-training-dataset-divided-by-the-total-number-of-training-example-on-the-y-axis-vs-the-epoch-number-x-axis-on-the-same-figure-plot-the-average-validation-cross-entropy-error-function-examine-the-plots-of-training-error-and-validationtest-error-generalization-how-does-the-networks-performance-differ-on-the-training-set-versus-the-validation-set-during-learning-use-the-plot-of-training-and-testing-error-curves-to-support-your-argument"><strong>(a)</strong> Plot the average training cross-entropy error (sum of the cross-entropy error terms over the training dataset divided by the total number of training example) on the y-axis vs. the epoch number (x-axis). On the same figure, plot the average validation cross-entropy error function. Examine the plots of training error and validation/test error (generalization). How does the network’s performance differ on the training set versus the validation set during learning? Use the plot of training and testing error curves to support your argument.</h4>
 <br>
 <p><img src="./learning_curve_Cross_entropy_error.png" alt="">
 The leanring curves with respect to cross-entropy error of all 6 random initializations are shown above.</p>
-<p>In this question, we set the learning rate $l = 0.1$, and the number of epochs equals to 200 with batch size $N_{batch} = 64$. Since we used a setup that requires sufficient epochs to attain a status like overfitting, we can note that most of the training process have a pattern of overfitting. In axes of seed 42, 422, 442, 4422, and 4442, the cross-entropy loss started from different values with different initializations and decreased quickly in the first 25 epochs, then as the number of training epochs increased, the cross-entropy error slowly decreased to 0 with some fluctuations while the validation(we use test set here) cross-entropy error slightly increased from 0.2 to around 0.3, so these plots show that their corresponding training process involves overfitting. In other words, the single neural networks began to become weaker for generalization while still working well on the training set.</p>
-<p>Also note that the training process with seed 4222 got unique learning curve, which includes a much higher initial cross-entropy loss and the learning process has several cliff drops and seems to have no significant overfitting pattern. This could be the result of a relatively unlucky initialization with parameters that were far from the local optimal point. Finally it also got the training error close to 0 and validation error close to 0.3, but the time cost to attained same performance is higher than the other random initializations.</p>
+<p>In this question, we set the learning rate $l = 0.1$, and the number of epochs equals to 200 with batch size $N_{batch} = 64$. Since we used a setup that requires sufficient epochs to attain a status like overfitting, we can note that most of the training processes have a pattern of overfitting. The training errors are smaller than the test error. In axes of seed 42, 422, 442, 4422, and 4442, the cross-entropy loss started from different values with different initializations and decreased quickly in the first 25 epochs, then as the number of training epochs increased, the cross-entropy error slowly decreased to 0 with some fluctuations while the validation(test set here) cross-entropy error slightly increased from 0.2 to around 0.3, so these plots show that Their corresponding training process involves overfitting. In other words, the single neural networks began to become weaker for generalization while still working well on the training set.</p>
+<p>Also note that the training process with seed 4222 got an unique learning curve, which includes a much higher initial cross-entropy loss and the learning process has several cliff drops and ends up with no significant overfitting pattern. This could be the result of a relatively unlucky initialization with parameters that were far from the local optimal point. Finally it also got the training error close to 0 and validation error close to 0.3, but the time cost to attained same performance is higher than the other random initializations.</p>
 <br>
 <h4 id="b-we-could-implement-an-alternative-performance-measure-to-the-cross-entropy-the-mean-miss-classification-error-we-can-consider-the-output-correct-if-the-correct-label-is-given-a-higher-probability-than-the-incorrect-label-then-count-up-the-total-number-of-examples-that-are-classified-incorrectly-divided-by-the-total-number-of-examples-according-to-this-criterion-for-training-and-validation-respectively-and-maintain-this-statistic-at-the-end-of-each-epoch-plot-the-classification-error-in-percentage-vs-number-of-epochs-for-both-training-and-testing-do-you-observe-a-different-behavior-compared-to-the-behavior-of-the-cross-entropy-error-function"><strong>(b)</strong> We could implement an alternative performance measure to the cross entropy, the mean miss-classification error. We can consider the output correct if the correct label is given a higher probability than the incorrect label, then count up the total number of examples that are classified incorrectly (divided by the total number of examples) according to this criterion for training and validation respectively, and maintain this statistic at the end of each epoch. Plot the classification error (in percentage) vs. number of epochs, for both training and testing. Do you observe a different behavior compared to the behavior of the cross-entropy error function?</h4>
 <br>
 <p><img src="./learning_curve_Misclassification_error.png" alt="">
-The leanring curves with respect to misclassification error of all 6 random initializations are shown above.</p>
-<p>The learning curves of average misclassification error are pretty similar to learning curves based on cross-entropy error. They have the same quick decreasing section in the first 25 epochs and an overfitting section corresponding to the remaining epochs, and the fluctuation is at the same pace. Seed 4222 also got cliff drops in this learning curve and takes longer time to earn the same performance as other neural networks.</p>
-<p>However, note that the overfitting parts of these plots are different from those in cross-entropy loss, the validation means misclassification error with seeds 42, 422, 442, 4422, and 4442 nearly maintaining the same value with some little noise in the overfitting phase, and the training loss of mean misclassification keep decreasing to 0. In previous question, the cross-entropy error on test set was slowly increasing. If we measure the ability of generalization of the neural networks by using mean misclassification error, then this ability is not damaged by overfitting.</p>
+The learning curves with respect to misclassification error of all 6 random initializations are shown above.</p>
+<p>The learning curves of average misclassification error are pretty similar to learning curves based on cross-entropy error. They have the same quick decreasing sections in the first 25 epochs and overfitting sections corresponding to the remaining epochs, and all the fluctuations are at the same pace. Seed 4222 also got cliff drops in this learning curve and takes a longer time to earn the same performance as other neural networks.</p>
+<p>However, note that the overfitting parts of these plots are different from those in cross-entropy loss, the validation means misclassification error with seeds 42, 422, 442, 4422, and 4442 nearly maintaining the same value with some little noise in the overfitting phase, and the training loss of mean misclassification keep decreasing to 0. In the previous question, the cross-entropy error on test set was slowly increasing. If we measure the ability of generalization of the neural networks by using mean misclassification error, then this ability is not damaged by overfitting.</p>
 <br>
 <h4 id="c-visualize-your-best-results-of-the-learned-w-as-one-hundred-28%C3%9728-images-plot-all-filters-as-one-image-as-we-have-seen-in-class-do-the-learned-features-exhibit-any-structure"><strong>(c)</strong> Visualize your best results of the learned W as one hundred 28×28 images (plot all filters as one image, as we have seen in class). Do the learned features exhibit any structure?</h4>
 <br>
 <p><img src="./3(c)_table.png" alt="">
 The table of evaluation metrics is shown above.</p>
-<p>We select the best model based on mean misclassification error on test set which can represent the test accuracy, and the cross entropy error on test set. Singel layer neural network with seed 42 has the lowest mean test misclassification error and relatively low test cross-entropy error, so we identify it as the best model.</p>
+<p>We select the best model based on mean misclassification error on test set standing for the test accuracy and the cross-entropy error on test set. Singel layer neural network with seed 42 has the lowest mean test misclassification error and relatively low test cross-entropy error, so we identify it as the best model.</p>
 <p><img src="./param_best_model.png" alt="">
-This is the visualization of the parameters learned from the best model with seed 42. It's clear that the most frequent pattern is the feature like a shape of &quot;3&quot; with a shade like a shape of &quot;8&quot;. There are also some chaotic features and some features with only part of the number or strokes shown in the restored features.</p>
+This is the visualization of the parameters learned from the best model with seed 42. It's clear that the most frequent pattern is the feature like a shape of &quot;3&quot; with a shade like a shape of &quot;8&quot;. There are also some chaotic features and some features with only part of the number or strokes shown in the restored features. The patterns like &quot;3&quot; frequently appeared might be the result from severely overfitting, as the learning process led the weights to a local optimal that mainly recognizing &quot;3&quot; or &quot;8&quot;.</p>
 <br>
 <h4 id="d-try-different-values-of-the-learning-rate-you-should-start-with-a-learning-rate-of-01-you-should-then-reduce-it-to-01-and-increase-it-to-02-and-05-what-happens-to-the-convergence-properties-of-the-algorithm-looking-at-both-average-cross-entropy-and--incorrect-try-momentum-of-00-05-09-how-does-momentum-affect-convergence-rate-how-would-you-choose-the-best-value-of-these-parameters"><strong>(d)</strong> Try different values of the learning rate. You should start with a learning rate of 0.1. You should then reduce it to .01, and increase it to 0.2 and 0.5. What happens to the convergence properties of the algorithm (looking at both average cross entropy and % incorrect)? Try momentum of 0.0, 0.5, 0.9. How does momentum affect convergence rate? How would you choose the best value of these parameters?</h4>
 <br>
 <p><img src="./learning_curve_lr_mmt_Cross_entropy_error.png" alt="">
-<img src="./learning_curve_lr_mmt_Misclassification_error.png" alt=""></p>
+<img src="./learning_curve_lr_mmt_Misclassification_error.png" alt="">
+We trained the best model with random seed 42 on the grid of learning rate $lr = {0.01, 0.02, 0.05, 0.1, 0.2, 0.5}$ and momentum $momemtum = {0.0, 0.5, 0.9}$.</p>
+<p>According to these 2 figures, both cross-entropy error and mean misclassification error have the same learning pattern when the learning rate and momentum are the same. With fixed momentum, a larger learning rate would lead to higher error rate and higher gap between training and testing error in terms of both the cross-entropy error and misclassification error. With a fixed learning rate, as the momentum increases, we can see that the learning curves are becoming less stable and even cannot make optimization on the loss function or even diverge. One important thing here is that single layer neural networks with lower learning rates seem to have better convergence rates than those with large learning rates.</p>
+<p><img src="./3(d)_table.png" alt="">
+This table shows the evaluation metrics of all single layer NNs trained on the learning rate and momentum grid with the best random seed 42 picked in 3(c). The best parameters should be chosen by the learning curve that have stable learning process and higher test accuracy and lower test cross-entropy error. Since the value of average cross-entropy error on test set is sensitive to overfitting, we can choose the best single layer neural network with parameters:</p>
+<ul>
+<li>$Seed = 42, lr = 0.01, momentum = 0.0$</li>
+</ul>
+<p>since it got the lowest test average cross-entropy error and the highest test accuracy.</p>
 <br>
 <h3 id="4-5-points-redo-part-3a---3d-with-a-cnn-ie-with-one-2-d-convolutional-layers-%E2%86%92-relu-activation-%E2%86%92-maxpooling-with-appropriate-hyperparameters-compare-the-best-result-from-the-single-layer-neural-network-and-the-cnn-what-could-you-conclude"><strong>4. (5 points) Redo part 3(a) - 3(d) with a CNN i.e. with one 2-D convolutional layers → Relu activation → Maxpooling with appropriate hyperparameters. Compare the best result from the single layer neural network and the CNN, what could you conclude?</strong></h3>
 <br>
+<pre><code>The structure of the single convolutional layer CNN is:
+CNN(
+(conv): Sequential(
+    (0): Conv2d(1, 16, kernel_size=(5, 5), stride=(1, 1), padding=(2, 2))
+    (1): ReLU()
+    (2): MaxPool2d(kernel_size=(2, 2), stride=2, padding=0, dilation=1, ceil_mode=False)
+)
+(flatten): Flatten(start_dim=1, end_dim=-1)
+(single_layer_nn): Sequential(
+    (0): Linear(in_features=3136, out_features=10, bias=True)
+)
+)
+</code></pre>
+<p>We define the only convolutional layer by using $5 \times 5$ kernel size and a padding of 2 in both vertical and horizontal direction and moves the convolution kernel with stride 1. This conv2d layer would output the data in shape $(16, 1, 28, 28)$. Then after ReLU activation, the features would be reduced to $(16, 1, 14, 14)$ by the MaxPooling layer and flattened by the Flatten layer in to a fully connected layer. The number of output neurons is set to be the number of classes.</p>
+<h4 id="a--b"><strong>(a) &amp; (b)</strong></h4>
+<br>
+<p><img src="./learning_curve_cnn_Cross_entropy_error_CNN.png" alt="">
+<img src="./learning_curve_cnn_Misclassification_error_CNN.png" alt="">
+The learning curve of CNNS are listed above.</p>
+<br>
+<h4 id="c"><strong>(c)</strong></h4>
+<br>
+<p><img src="./4(c)_table.png" alt=""></p>
+<p>Model comparison between CNNs can be based on this table.</p>
+<p>All CNNs have similar overfitting pattern start from around the 10th epoch. Best model is CNN with seed 42. Lowest test cross-entropy error and lowest mean misclassification error.</p>
+<p><img src="./param_best_model_cnn.png" alt=""></p>
+<br>
+<h4 id="d"><strong>(d)</strong></h4>
+<p><img src="./learning_curve_lr_mmt_cnn_Cross_entropy_error_CNN.png" alt="">
+<img src="./learning_curve_lr_mmt_cnn_Misclassification_error_CNN.png" alt=""></p>
+<p><img src="./4(d)_table.png" alt=""></p>
 <br>
 <h3 id="5-5-points-redo-part-3a---3d-with-your-favorite-deep-learning-architecture-eg-introducing-batch-normalization-introducing-dropout-in-training-to-beat-the-performance-of-svm-with-gaussian-kernel-ie-to-have-a-test-error-rate-lower-than-14"><strong>5. (5 points) Redo part 3(a) - 3(d) with your favorite deep learning architecture (e.g., introducing batch normalization, introducing dropout in training) to beat the performance of SVM with Gaussian Kernel, i.e., to have a test error rate lower than 1.4%.</strong></h3>
 <br>
+<p>We use Lenet5-like CNN for this question, hereinafter called them lenet. We introduced batch-normalization in this question.</p>
+<h4 id="a--b"><strong>(a) &amp; (b)</strong></h4>
+<br>
+<p><img src="./learning_curve_lenet_Cross_entropy_error_LeNet.png" alt="">
+<img src="./learning_curve_lenet_Misclassification_error_LeNet.png" alt=""></p>
+<br>
+<h4 id="c"><strong>(c)</strong></h4>
+<br>
+<p><img src="./5(c)_table.png" alt="">
+All lenets are overfitting, so we pick the best model to be lenet with seed 4422, since it has nearly the highest test accuracy while with the lowest test cross-entropy error, which is more robust in different metrics.</p>
+<p><img src="./param_best_model_lenet_conv_kernel_0.png" alt="">
+<img src="./param_best_model_lenet_samples_conv_kernel_1.png" alt=""></p>
+<br>
+<h4 id="d"><strong>(d)</strong></h4>
+<br>
+<p><img src="./learning_curve_lr_mmt_lenet_Cross_entropy_error_LeNet.png" alt="">
+<img src="./learning_curve_lr_mmt_lenet_Misclassification_error_LeNet.png" alt=""></p>
+<p><img src="./5(d)_table.png" alt=""></p>
+<br>
+<h2 id="part-5-more-about-deep-learning"><strong>Part 5: More About Deep Learning</strong></h2>
+<br>
+<h3 id="6-1-points-as-a-warm-up-question-load-the-data-and-plot-a-few-examples-decide-if-the-pixels-were-scanned-out-in-row-major-or-column-major-order-what-is-the-relationship-between-the-2-digits-and-the-last-coordinate-of-each-line"><strong>6. (1 points) As a warm up question, load the data and plot a few examples. Decide if the pixels were scanned out in row-major or column-major order. What is the relationship between the 2 digits and the last coordinate of each line?</strong></h3>
+<br>
+<p><img src="./two_digits.png" alt=""></p>
+<p>row order!</p>
+<p>the labels are the sum of the two digits!</p>
+<h3 id="7-8-points-repeat-part-3a---3d-with-at-least-two-of-your-favorite-deep-learning-architecture-eg-introducing-batch-normalization-introducing-dropout-in-training-with-respect-to-with-traintxt-valtxt-and-testtxt-in-particular"><strong>7. (8 points) Repeat part 3(a) - 3(d) with at least two of your favorite deep learning architecture (e.g., introducing batch normalization, introducing dropout in training) with respect to with train.txt, val.txt and test.txt. In particular,</strong></h3>
+<pre><code>(a) Using train.txt to train your models.
+(b) Using the validation error (i.e., the performance on val.txt) to select the best model.
+(c) Report the generalization error (i.e., the performance on test.txt) for the model you picked. How would you compare the test errors you obtained with respect to the original MNIST data? Explain why you cannot obtain a test error lower than 1%.
+</code></pre>
+<br>
+<p>We use Lenet5-like CNN and AlexNet-like CNN for this question, hereinafter called them lenet and alexnet respectively. We also introduced dropout and batch-normalization in this question.</p>
+<h4 id="a--b"><strong>(a) &amp; (b)</strong></h4>
+<br>
+<h4 id="c"><strong>(c)</strong></h4>
+<br>
+<p><img src="./7(c)_lenet_alt_table.png" alt="">
+Best lenet_alt is based on seed 42.</p>
+<h4 id="d"><strong>(d)</strong></h4>
+<br>
+<p><img src="./7(d)_lenet_alt_table.png" alt=""></p>
+<p><img src="./7(d)_alexnet_table.png" alt=""></p>
+<br>
+<h4 id="generalization-error"><strong>Generalization Error</strong></h4>
+<br>
+<pre><code>Generalization result of lenet_alt:
+Test Accuracy:  93.60%|Test Loss - cross entropy:    0.236467|Test Loss - mis-clf:    0.064000 
+</code></pre>
+<br>
+<pre><code>Generalization result of AlexNet:
+Test Accuracy:  97.24%|Test Loss - cross entropy:    0.152874|Test Loss - mis-clf:    0.027600
+</code></pre>
 
 </body>
 </html>
