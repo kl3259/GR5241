@@ -32,7 +32,7 @@ In this case we only construct one hidden layer with 784 original inputs, 100 ne
 
 The leanring curves with respect to cross-entropy error of all 6 random initializations are shown above. 
 
-In this question, we set the learning rate $l = 0.1$, and the number of epochs equals to 200 with batch size $N_{batch} = 64$. Since we used a setup that requires sufficient epochs to attain a status like overfitting, we can note that most of the training processes have a pattern of overfitting. The training errors are smaller than the test error. In axes of seed 42, 422, 442, 4422, and 4442, the cross-entropy loss started from different values with different initializations and decreased quickly in the first 25 epochs, then as the number of training epochs increased, the cross-entropy error slowly decreased to 0 with some fluctuations while the validation(test set here) cross-entropy error slightly increased from 0.2 to around 0.3, so these plots show that Their corresponding training process involves overfitting. In other words, the single neural networks began to become weaker for generalization while still working well on the training set.
+In this question, we set the learning rate $l = 0.1$, and $N_{epochs} = 200$ with batch size $N_{batch} = 64$. Since we used a setup that requires sufficient epochs to attain a status like overfitting, we can note that most of the training processes have a pattern of overfitting. The training errors are smaller than the test error. In axes of seed 42, 422, 442, 4422, and 4442, the cross-entropy loss started from different values with different initializations and decreased quickly in the first 25 epochs, then as the number of training epochs increased, the cross-entropy error slowly decreased to 0 with some fluctuations while the validation(test set here) cross-entropy error slightly increased from 0.2 to around 0.3, so these plots show that Their corresponding training process involves overfitting. In other words, the single neural networks began to become weaker for generalization while still working well on the training set.
 
 Also note that the training process with seed 4222 got an unique learning curve, which includes a much higher initial cross-entropy loss and the learning process has several cliff drops and ends up with no significant overfitting pattern. This could be the result of a relatively unlucky initialization with parameters that were far from the local optimal point. Finally it also got the training error close to 0 and validation error close to 0.3, but the time cost to attained same performance is higher than the other random initializations. 
 
@@ -48,7 +48,6 @@ The learning curves with respect to misclassification error of all 6 random init
 The learning curves of average misclassification error are pretty similar to learning curves based on cross-entropy error. They have the same quick decreasing sections in the first 25 epochs and overfitting sections corresponding to the remaining epochs, and all the fluctuations are at the same pace. Seed 4222 also got cliff drops in this learning curve and takes a longer time to earn the same performance as other neural networks. 
 
 However, note that the overfitting parts of these plots are different from those in cross-entropy loss, the validation means misclassification error with seeds 42, 422, 442, 4422, and 4442 nearly maintaining the same value with some little noise in the overfitting phase, and the training loss of mean misclassification keep decreasing to 0. In the previous question, the cross-entropy error on test set was slowly increasing. If we measure the ability of generalization of the neural networks by using mean misclassification error, then this ability is not damaged by overfitting. 
-
 
 <br>
 
@@ -103,7 +102,7 @@ since it got the lowest test average cross-entropy error and the highest test ac
     )
     )
 
-We define the only convolutional layer by using $5 \times 5$ kernel size and a padding of 2 in both vertical and horizontal direction and moves the convolution kernel with stride 1. This conv2d layer would output the data in shape $(16, 1, 28, 28)$. Then after ReLU activation, the features would be reduced to $(16, 1, 14, 14)$ by the MaxPooling layer and flattened by the Flatten layer in to a fully connected layer. The number of output neurons is set to be the number of classes. 
+We define the only convolutional layer by using $5 \times 5$ kernel size and a padding of 2 in both vertical and horizontal direction and moves the convolution kernel with stride 1. This conv2d layer would output the data in shape $(16, 28, 28)$. Then after ReLU activation, the features would be reduced to $(16, 14, 14)$ by the MaxPooling layer and flattened by the Flatten layer in to a fully connected layer. The number of output neurons is set to be the number of classes. 
 
 #### **(a) & (b)**
 <br>
@@ -114,33 +113,45 @@ We define the only convolutional layer by using $5 \times 5$ kernel size and a p
 
 The learning curves of CNNs are listed above. The training parameters are: $lr = 0.001$, $N_{batch} = 100$, $N_{epoch} = 80$, $momentum = 0$. I reduced the number of epochs since the CNN is more suitable for computer vision problems, thus it would perform better than single layer NN, we can observe the overfitting under fewer epochs. 
 
-We can still see that the patterns in single layer NNs' learning curve also appear in CNNs' figure. The single convolutional layer CNN has the convergence rate as same as the single layer NN, both types can attain a status of overfitting at around the 20th epoch. Note that both two types of training errors and testing errors are lower than single layer NN when the training processes are finished, which conforms with the conclusion: CNN has better performance on image classification than single layer NN. The main reason is that its convolutional layer can work as a feature extractor and maxpooling layer can be interpreted as dimension reduction. 
+We can still see that the patterns in single layer NNs' learning curve also appear in CNNs' figure. The single convolutional layer CNN has the convergence rate as same as the single layer NN, both types can attain a status of overfitting at around the 20th epoch. Note that both two types of training errors and testing errors are lower than single layer NN when the training processes are finished, which conforms with the conclusion that CNN has better performance on image classification than single layer NN. The main reason is that its convolutional layer can work as a feature extractor and maxpooling layer can be interpreted as dimension reduction. 
+
+Also, there's less fluctuation during the training process in CNNs' learning curve. 
 
 <br>
 
 #### **(c)**
 <br>
 
-![](./4(c)_table.png)
+<img src = "./4(c)_table.png" height = "150"/>
 
-Model comparison between CNNs can be based on this table. 
+Model comparison between CNNs is based on this table. 
+
+All CNNs have similar overfitting patterns starting from around the 10th epoch. The best model is CNN with seed 42 as it has the lowest test average cross-entropy error and lowest mean misclassification error. 
 
 
-All CNNs have similar overfitting pattern start from around the 10th epoch. Best model is CNN with seed 42. Lowest test cross-entropy error and lowest mean misclassification error. 
+<img src = "./param_best_model_cnn.png" height = "600"/>
 
-
-![](./param_best_model_cnn.png)
+The visualization of the 16 convolutional kernel from the best single convolutional layer CNN shows some of the structures like the part of strokes with black and white pixels. The kernels are seem to be uncorrelated, which are reasonable. 
 
 <br>
 
 #### **(d)**
 
-![](./learning_curve_lr_mmt_cnn_Cross_entropy_error_CNN.png)
-![](./learning_curve_lr_mmt_cnn_Misclassification_error_CNN.png)
+<img  src = "./learning_curve_lr_mmt_cnn_Cross_entropy_error_CNN.png" height = "1200"/>
+<img src = "./learning_curve_lr_mmt_cnn_Misclassification_error_CNN.png" height = "1200"/>
 
+The learning curves with respect to two types of errors on the learning rate and momentum grid are shown above. 
 
-![](./4(d)_table.png)
+We trained the best single convolutional layer CNN with random seed 42 on the grid of learning rate $lr = \{0.0001, 0.0005, 0.001, 0.002, 0.005, 0.01\}$ and momentum $momemtum = \{0.0, 0.5, 0.9\}$. Since we already observed the overfitting around the 20th epoch in 4(a) & 4(b), here the number of epoch is reduced to 60 to speed up the training. 
 
+Comparing to the training result of single layer NN on the grid, we can see that CNNs are more sensitive to the momentum value, with sufficient epochs, the gap between training error and testing error is enlarged significantly as the momentum increases. The plots in the bottom of the two pictures demonstrate that CNN need to use smaller learning rate and momentum to converge. Suitable learning rate for single layer NN would result in remarkbale fluctuation when applying to CNNs. 
+
+<img src = "./4(d)_table.png" height = "400"/>
+
+The final result after training is listed above. We can choose the best single convolutional layer CNN with:
+* $Seed = 42, lr = 0.0001, momentum = 0.5$
+
+since this model nearly has no overfitting in its learning curve, and has the lowest test average cross-entropy error and the 3rd highest test accuracy. 
 
 <br>
 
@@ -148,21 +159,47 @@ All CNNs have similar overfitting pattern start from around the 10th epoch. Best
 ### **5. (5 points) Redo part 3(a) - 3(d) with your favorite deep learning architecture (e.g., introducing batch normalization, introducing dropout in training) to beat the performance of SVM with Gaussian Kernel, i.e., to have a test error rate lower than 1.4%.**
 <br>
 
-We use Lenet5-like CNN for this question, hereinafter called them lenet. We introduced batch-normalization in this question. 
+    lenet(
+    (conv): Sequential(
+        (0): Conv2d(1, 6, kernel_size=(5, 5), stride=(1, 1), padding=(2, 2))
+        (1): ReLU()
+        (2): MaxPool2d(kernel_size=(2, 2), stride=2, padding=0, dilation=1, ceil_mode=False)
+        (3): BatchNorm2d(6, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (4): Conv2d(6, 16, kernel_size=(5, 5), stride=(1, 1))
+        (5): ReLU()
+        (6): MaxPool2d(kernel_size=(2, 2), stride=2, padding=0, dilation=1, ceil_mode=False)
+    )
+    (flatten): Flatten(start_dim=1, end_dim=-1)
+    (fully_conncet): Sequential(
+        (0): Linear(in_features=400, out_features=120, bias=True)
+        (1): ReLU()
+        (2): BatchNorm1d(120, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
+        (3): Linear(in_features=120, out_features=84, bias=True)
+        (4): ReLU()
+        (5): Linear(in_features=84, out_features=10, bias=True)
+    )
+    )
+We use Lenet5-like CNN for this question, hereinafter called them lenet. I introduced batch-normalization in both of the convolutional and fully connected part. Evolved from the single convolutional layer CNN, the classic LeNet5 includes more convolutional, maxpooling and fully connected layers, which aims to improve the performance of feature extraction. More parameters makes this lenet more complex and thus would be suitable for image classification. The $28 \times 28$ image was shaped in a sequence: $(6,28,28)$ -> $(6,14,14)$ -> $(16,10,10)$ -> $(16,5,5)$ -> $16 \times 5 \times 5$ -> $120$ -> $84$ -> $10$.
 
 #### **(a) & (b)**
 <br>
 
-![](./learning_curve_lenet_Cross_entropy_error_LeNet.png)
-![](./learning_curve_lenet_Misclassification_error_LeNet.png)
+<img src = "./learning_curve_lenet_Cross_entropy_error_LeNet.png" height = "500"/>
+<img src = "./learning_curve_lenet_Misclassification_error_LeNet.png" height = "500"/>
+
+The learning curves of the LeNet5-like CNN are shown above. $N_{batch} = 100$, $lr = 0.0005$, $seeds = \{42, 422, 442, 4422, 4442\}$. I chose the $N_{epochs} = 30$ because the lenet is foreseeable more powerful than the single convolutional layer CNN. More parameters would make it overfitting easily and early. As we can see, lenets start overfitting at around the 5th epoch and easily attain a level of test accuracy of around 99%. Other remaining patterns of overfitting are the same as we found in questions 3 and 4. 
+
+One difference is that the test average misclassification error seems to be more unstable than the average cross-entropy error. 
 
 <br>
 
 #### **(c)**
 <br>
 
-![](./5(c)_table.png)
-All lenets are overfitting, so we pick the best model to be lenet with seed 4422, since it has nearly the highest test accuracy while with the lowest test cross-entropy error, which is more robust in different metrics. 
+<img src = "./5(c)_table.png" height = "150"/>
+
+The table of evaluation metrics of lenets is shown above. 
+Since all lenets are overfitting, so we pick the best model to be lenet with seed 4422, since it has nearly the highest test accuracy of 99.13% while with the lowest test cross-entropy error 0.028544, which is more robust against overfitting. 
 
 ![](./param_best_model_lenet_conv_kernel_0.png)
 ![](./param_best_model_lenet_samples_conv_kernel_1.png)
