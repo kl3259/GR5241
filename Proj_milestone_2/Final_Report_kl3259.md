@@ -168,6 +168,8 @@ We use Lenet5-like CNN and Resnet34 for this question, hereinafter called them l
 #### **(c)**
 <br>
 
+![](./7(c)_lenet_alt_table.png)
+Best lenet_alt is based on seed 42. 
 
 
 #### **(d)**
