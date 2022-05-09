@@ -11,6 +11,20 @@
 ### **3. (5 points) Train a single layer neural network with 100 hidden units (e.g. with architecture: 784 → 100 → 10). You should use the initialization scheme discussed in class and choose a reasonable learning rate (i.e. 0.1). Train the network repeatedly (more than 5 times) using different random seeds, so that each time, you start with a slightly different initialization of the weights. Run the optimization for at least 150 epochs each time. If you observe underfitting, continue training the network for more epochs until you start seeing overfitting.**
 <br>
 
+    The structure of single layer neural network is:
+    single_layer_NN(
+    (flatten): Flatten(start_dim=1, end_dim=-1)
+    (single_layer_nn): Sequential(
+    (0): Linear(in_features=784, out_features=100, bias=True)
+    (1): Sigmoid()
+    (2): Linear(in_features=100, out_features=10, bias=True)
+    )
+    )
+
+In this case we only construct one hidden layer with 784 original inputs, 100 neurons and the sigmoid function as activation function. The output size is 10 which corresponds to the number of classes in MNIST dataset. 
+
+<br>
+
 #### **(a)** Plot the average training cross-entropy error (sum of the cross-entropy error terms over the training dataset divided by the total number of training example) on the y-axis vs. the epoch number (x-axis). On the same figure, plot the average validation cross-entropy error function. Examine the plots of training error and validation/test error (generalization). How does the network’s performance differ on the training set versus the validation set during learning? Use the plot of training and testing error curves to support your argument.
 <br>
 
@@ -42,10 +56,10 @@ However, note that the overfitting parts of these plots are different from those
 ![](./3(c)_table.png)
 The table of evaluation metrics is shown above. 
 
-We select the best model based on mean misclassification error on test set which can represent the test accuracy, and the cross entropy error on test set. Singel layer neural network with seed 42 has the lowest mean test misclassification error and relatively low test cross-entropy error, so we identify it as the best model. 
+We select the best model based on mean misclassification error on test set standing for the test accuracy and the cross-entropy error on test set. Singel layer neural network with seed 42 has the lowest mean test misclassification error and relatively low test cross-entropy error, so we identify it as the best model. 
 
 ![](./param_best_model.png)
-This is the visualization of the parameters learned from the best model with seed 42. It's clear that the most frequent pattern is the feature like a shape of "3" with a shade like a shape of "8". There are also some chaotic features and some features with only part of the number or strokes shown in the restored features. 
+This is the visualization of the parameters learned from the best model with seed 42. It's clear that the most frequent pattern is the feature like a shape of "3" with a shade like a shape of "8". There are also some chaotic features and some features with only part of the number or strokes shown in the restored features. The patterns like "3" frequently appeared might be the result from severely overfitting, as the learning process led the weights to a local optimal that mainly recognizing "3" or "8". 
 
 <br>
 
@@ -54,7 +68,7 @@ This is the visualization of the parameters learned from the best model with see
 
 ![](./learning_curve_lr_mmt_Cross_entropy_error.png)
 ![](./learning_curve_lr_mmt_Misclassification_error.png)
-We trained the best model with random seed 42. According to these 2 figures, both cross-entropy error and mean misclassification error have the same pattern defined by the combination of learning rate and momentum. Larger learning rate . With fixed learning rate, 
+We trained the best model with random seed 42 on the grid of learning rate $lr = \{0.01, 0.02, 0.05, 0.1, 0.2, 0.5\}$ and momentum $momemtum = \{0.0, 0.5, 0.9\}$. According to these 2 figures, both cross-entropy error and mean misclassification error have the same learning pattern when the learning rate and momentum are the same. Larger learning rate would lead to faster learning process and earlier start of overfitting. With a fixed learning rate, the larger the momentum is, the more but unstable learning curve would show up
 
 
 
