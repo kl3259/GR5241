@@ -146,6 +146,7 @@ All lenets are overfitting, so we pick the best model to be lenet with seed 4422
 ![](./two_digits.png)
 
 row order!
+
 the labels are the sum of the two digits!
 
 
