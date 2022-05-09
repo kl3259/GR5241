@@ -116,6 +116,9 @@ We use Lenet5-like CNN for this question, hereinafter called them lenet. We also
 ![](./5(c)_table.png)
 All lenets are overfitting, so we pick the best model to be lenet with seed 4422, since it has nearly the highest test accuracy while with the lowest test cross-entropy error, which is more robust in different metrics. 
 
+![](./param_best_model_lenet_conv_kernel_0.png)
+![](./param_best_model_lenet_samples_conv_kernel_1.png)
+
 
 
 #### **(d)**
