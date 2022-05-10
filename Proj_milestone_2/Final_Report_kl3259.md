@@ -365,8 +365,14 @@ Above are the learning curves of updated lenet based on the best random seed 42 
 
 The grid is $lr = \{0.0001, 0.0005, 0.001, 0.002, 0.005, 0.01\}$, $momentum = \{0.0, 0.5, 0.9\}$. We can see that the updated lenets are sensitive to learning rate. When learning rate is small(i.e. 0.0001) and without any acceleration of momentum, its learning curve would have a longer learning phase with gradient descent optimizations lasting about 30 epochs, which is clearly shown on the top left subplot. As it's a kind of CNN, it also has the property we discussed in the previous question. The convergence rate in this question is more strict on learning rate, if the learning rate is too large(i.e. 0.01), it even has a great fluctuation that makes it diverge after a temporary convergence. 
 
+While the training and validation metrics are pretty close in cases that would converge, a good parameter combination for lenet to learn is using small learning rate with high momentum to achieve stable and fast converge rate.  
+
 <img src = "./7(d)_lenet_alt_table.png" height = "400"/>
 
+According to this grid search result, the best updated lenet should use:
+* $seed = 42, lr = 0.0005, momentum = 0.5$
+
+as its learning parameters to get the highest validation accuracy 92.62% and a low validation cross-entropy error.
 <br>
 
 **AlexNet**
@@ -376,33 +382,37 @@ The grid is $lr = \{0.0001, 0.0005, 0.001, 0.002, 0.005, 0.01\}$, $momentum = \{
 
 The learning curve of grid search is on $lr  = \{0.0001, 0.0005, 0.001, 0.002, 0.005, 0.01\}$ and $momentum = \{0.0, 0.5, 0.9\}$. According to the subplots, alexnets are more sensitive to the learning rate even than the updated lenet in the previous question. Small learning rates like 0.0001 cannot let it converge in the first 30 epochs, while large learning rates like 0.005 and 0.01 cannot allow it to make optimization properly on this training dataset. The available range of learning rates for alexnet is the most narrow one we tried so far. Relatively large learning rates with large momentum would result in heavy fluctuations and divergence. 
 
-While the training and validation metrics are pretty close in cases that would converge, a good parameter combination for alexnet to learn is using small learning rate with high momentum to achieve stable and fast converge rate.  
-
 Some subplots show nothing or strange patterns, this might be the result of gradient explosion. 
 
 <img src = "./7(d)_alexnet_table.png" height = "400"/>
 
+The grid search result of alexnet 
+* $seed = 4442, lr = 0.002, momentum = 0.0$
+
+finally attained the highest validation accuracy about 97.02% and beat the updated lenet. 
 
 <br>
 
 #### **Generalization Error**
 <br>
 
+**LeNet**
+
     Generalization result of lenet_alt:
     Test Accuracy:  93.60%|Test Loss - cross entropy:    0.236467|Test Loss - mis-clf:    0.064000 
 
-<br>
 
+**AlexNet**
 
     Generalization result of AlexNet:
     Test Accuracy:  97.24%|Test Loss - cross entropy:    0.152874|Test Loss - mis-clf:    0.027600
 
-**LeNet**
+We finally use our best updated lenet and alexnet model picked in 7(d) to make predictions on the test set and give the generalization error. Note that updated lenet got validation cross-entropy error 0.294697 and validation accuracy 92.62%, alexnet got 0.176864 and 97.02% respectively. Both of the two best models outperform on the test data, and thus there are no overfitting problems in the training processes. However, both of the neural network structures got weaker performance than those working on original MNIST dataset. The best result on original MNIST dataset is the lowest test cross-entropy error of 0.032757 and the highest test accuracy of 99.22%
 
+<br>
 
-
-
-**AlexNet**
+**Explain why you cannot obtain a test error lower than 1%.**
+The number of classes raised from 10 to 19, and the number of raw features are doubled in this question, which makes the real-world hypothesis more complex, thus it is natural that the classification performance got worse. If we assume that the features from a specific number are independent, as the class conditional assumption in naive Bayes, then the neural networks working on two digits would have the best test accuracy at $0.9922^2 \approx 0.9845$ to predict both digits correctly as two independent neural networks working on their own digit, which is less than 99%.
 
 
 

@@ -522,7 +522,7 @@ Since all lenets are overfitting, so we pick the best model to be lenet with see
 <h3 id="6-1-points-as-a-warm-up-question-load-the-data-and-plot-a-few-examples-decide-if-the-pixels-were-scanned-out-in-row-major-or-column-major-order-what-is-the-relationship-between-the-2-digits-and-the-last-coordinate-of-each-line"><strong>6. (1 points) As a warm up question, load the data and plot a few examples. Decide if the pixels were scanned out in row-major or column-major order. What is the relationship between the 2 digits and the last coordinate of each line?</strong></h3>
 <br>
 <img src = "./two_digits.png" height = "500"/>
-<p>I splitted the last column as the labels for this new data. The plot is made by extracting each row of the first 1568 entries and using numpy.reshape() function to reshape them into $28 \times 56$ array. Since the numpy function is in a row-oriented order, so the new data is stored in row order. By observing the labels, I found that the labels are the sum of the two digits shown in one picture.</p>
+<p>I split the last column as the labels for this new data. The plot is made by extracting each row of the first 1568 entries and using NumPy.reshape() function to reshape them into $28 \times 56$ array. Since the NumPy function is in a row-oriented order, so the new data is stored in row order. By observing the labels, I found that the labels are the sum of the two digits shown in one picture.</p>
 <br>
 <h3 id="7-8-points-repeat-part-3a---3d-with-at-least-two-of-your-favorite-deep-learning-architecture-eg-introducing-batch-normalization-introducing-dropout-in-training-with-respect-to-with-traintxt-valtxt-and-testtxt-in-particular"><strong>7. (8 points) Repeat part 3(a) - 3(d) with at least two of your favorite deep learning architecture (e.g., introducing batch normalization, introducing dropout in training) with respect to with train.txt, val.txt and test.txt. In particular,</strong></h3>
 <blockquote>
@@ -582,35 +582,75 @@ Since all lenets are overfitting, so we pick the best model to be lenet with see
 )
 )
 </code></pre>
-<p>We use Lenet5-like CNN and AlexNet-like CNN for this question, hereinafter called them lenet and alexnet respectively. I also introduced dropout and batch-normalization in this question. The lenet is updated by adding a dropout layer before the flatten layer with a dropout probability 0.25 for slight regularization. Since this question has more features to extract, I implemented a modified AlexNet to try to achieve better result than lenet since it has more complex structure, which is designed for more complex hypothesis.</p>
+<p>We use Lenet5-like CNN and AlexNet-like CNN for this question, hereinafter called them lenet and alexnet respectively. I also introduced dropout and batch-normalization in this question. The lenet is updated by adding a dropout layer before the flatten layer with a dropout probability 0.25 for slight regularization. Since this question has more features to extract, I implemented a modified AlexNet to try to achieve better results than lenet since it has more complex structure, which is designed for more complex hypotheses. To fit the alexnet for the MNIST dataset, I changed the kernel size of maxpooling layer from 3 to 2, and reduced the number of kernels in convolutional to $64, 128, 256$ rather than $96, 256, 384$. The fully connected layer is also simplified, their size is down to $1024, 512$. The output layer size is assigned to 19, which is the number of classes in this new dataset.</p>
 <h4 id="a--b"><strong>(a) &amp; (b)</strong></h4>
 <br>
 <p><strong>LeNet</strong></p>
+<img src = "./learning_curve_lenet_alt_Cross_entropy_error_LeNet_alt.png" height = "500"/>
+<img src = "./learning_curve_lenet_alt_Misclassification_error_LeNet_alt.png" height = "500"/>
+<p>The learning curve of updated lenet is shown above.</p>
+<p>The parameters are: $lr = 0.0005$, $seeds = {42, 422, 442, 4222, 4422, 4442}$, $momentum = 0$, $N_{batch} = 100$, $N_{epochs} = 30$. We can see that the updated lenet is stable and the overfitting is limited, there'are no increment of validation cross-entropy error. All different random seeds yield similar learning curve. The validation loss functions of the udpated lenet is a little higher than working on original MNIST.</p>
 <p><strong>AlexNet</strong></p>
+<img src = "./learning_curve_alexnet_Cross_entropy_error_AlexNet.png" height = "500"/>
+<img src = "./learning_curve_alexnet_Misclassification_error_AlexNet.png" height = "500"/>
+<p>The learning curve of alexnet is shown above.</p>
+<p>The parameters are: $lr = 0.001$, $seeds = {42, 422, 442, 4222, 4422, 4442}$, $momentum = 0$, $N_{batch} = 100$, $N_{epochs} = 30$. Alexnets have unique learning curves, as their loss function on both training set and the validation set remain high at the first 5 - 10 epochs, and then rapidly decrease to a level under 0.5 average cross-entropy error and 10% average misclassification error on both training and validation set. In the whole process, alexnets are extremely stable and faced no overfitting. This demonstrates the powerful learning ability and well-defined structure of alexnet.</p>
 <h4 id="c"><strong>(c)</strong></h4>
 <br>
-<p><img src="./7(c)_lenet_alt_table.png" alt="">
-Best lenet_alt is based on seed 42.</p>
 <p><strong>LeNet</strong></p>
+<img src = "./7(c)_lenet_alt_table.png" height = "150"/>
+<p>Best udpated lenet is the one with seed 42, it has the highest validation accuracy 93.16% and the lowest validation average cross-entropy error 0.240117.</p>
+<img src = "./param_best_model_lenet_alt_conv_kernel_0.png" height = "400"/>
+<img src = "./param_best_model_lenet_alt_sample_conv_kernel_1.png" height = "400"/>
+<p>The visualization of two convolutional kernel in the best updated lenent are shown above. The second layer I choose only 6 samples to be displayed. They are similar with previous one in CNNs and lenets with some heterogeneous structures but also remain uncorrelated.</p>
 <p><strong>AlexNet</strong></p>
+<img src = "./7(c)_alexnet_table.png" height = "150"/>
+<p>The best alexnet is from seed 4442 with the highest validation accuracy 96.84% and the lowest validation average cross-entropy error 0.142802. The difference between updated lenet and alexnet also confirms that alexnet is more powerful.</p>
+<img src = "./param_best_model_alexnet_samples_conv_kernel_0.png" height = "400"/>
+<img src = "./param_best_model_alexnet_samples_conv_kernel_1.png" height = "400"/>
+<p>The samples of convolutional kernels of the best parameters learned in alexnet are shown above.</p>
+<p>The 12 $3 \times 3$ kernels also show different structures without any correlation, thus they are plausible.</p>
 <h4 id="d"><strong>(d)</strong></h4>
 <br>
-<p><img src="./7(d)_lenet_alt_table.png" alt=""></p>
-<p><img src="./7(d)_alexnet_table.png" alt=""></p>
 <p><strong>LeNet</strong></p>
+<img src = "./learning_curve_lr_mmt_lenet_alt_Cross_entropy_error_LeNet_alt.png" height = "1200"/>
+<img src = "./learning_curve_lr_mmt_lenet_alt_Misclassification_error_LeNet_alt.png" height = "1200"/>
+<p>Above are the learning curves of updated lenet based on the best random seed 42 on the grid of learning rate and momentum.</p>
+<p>The grid is $lr = {0.0001, 0.0005, 0.001, 0.002, 0.005, 0.01}$, $momentum = {0.0, 0.5, 0.9}$. We can see that the updated lenets are sensitive to learning rate. When learning rate is small(i.e. 0.0001) and without any acceleration of momentum, its learning curve would have a longer learning phase with gradient descent optimizations lasting about 30 epochs, which is clearly shown on the top left subplot. As it's a kind of CNN, it also has the property we discussed in the previous question. The convergence rate in this question is more strict on learning rate, if the learning rate is too large(i.e. 0.01), it even has a great fluctuation that makes it diverge after a temporary convergence.</p>
+<p>While the training and validation metrics are pretty close in cases that would converge, a good parameter combination for lenet to learn is using small learning rate with high momentum to achieve stable and fast converge rate.</p>
+<img src = "./7(d)_lenet_alt_table.png" height = "400"/>
+<p>According to this grid search result, the best updated lenet should use:</p>
+<ul>
+<li>$seed = 42, lr = 0.0005, momentum = 0.5$</li>
+</ul>
+<p>as its learning parameters to get the highest validation accuracy 92.62% and a low validation cross-entropy error.
+<br></p>
 <p><strong>AlexNet</strong></p>
+<img src = "./learning_curve_lr_mmt_alexnet_Cross_entropy_error_AlexNet.png" height = "1200"/>
+<img src = "./learning_curve_lr_mmt_alexnet_Misclassification_error_AlexNet.png" height = "1200"/>
+<p>The learning curve of grid search is on $lr  = {0.0001, 0.0005, 0.001, 0.002, 0.005, 0.01}$ and $momentum = {0.0, 0.5, 0.9}$. According to the subplots, alexnets are more sensitive to the learning rate even than the updated lenet in the previous question. Small learning rates like 0.0001 cannot let it converge in the first 30 epochs, while large learning rates like 0.005 and 0.01 cannot allow it to make optimization properly on this training dataset. The available range of learning rates for alexnet is the most narrow one we tried so far. Relatively large learning rates with large momentum would result in heavy fluctuations and divergence.</p>
+<p>Some subplots show nothing or strange patterns, this might be the result of gradient explosion.</p>
+<img src = "./7(d)_alexnet_table.png" height = "400"/>
+<p>The grid search result of alexnet</p>
+<ul>
+<li>$seed = 4442, lr = 0.002, momentum = 0.0$</li>
+</ul>
+<p>finally attained the highest validation accuracy about 97.02% and beat the updated lenet.</p>
 <br>
 <h4 id="generalization-error"><strong>Generalization Error</strong></h4>
 <br>
+<p><strong>LeNet</strong></p>
 <pre><code>Generalization result of lenet_alt:
 Test Accuracy:  93.60%|Test Loss - cross entropy:    0.236467|Test Loss - mis-clf:    0.064000 
 </code></pre>
-<br>
+<p><strong>AlexNet</strong></p>
 <pre><code>Generalization result of AlexNet:
 Test Accuracy:  97.24%|Test Loss - cross entropy:    0.152874|Test Loss - mis-clf:    0.027600
 </code></pre>
-<p><strong>LeNet</strong></p>
-<p><strong>AlexNet</strong></p>
+<p>We finally use our best updated lenet and alexnet model picked in 7(d) to make predictions on the test set and give the generalization error. Note that updated lenet got validation cross-entropy error 0.294697 and validation accuracy 92.62%, alexnet got 0.176864 and 97.02% respectively. Both of the two best models outperform on the test data, and thus there are no overfitting problems in the training processes. However, both of the neural network structures got weaker performance than those working on original MNIST dataset. The best result on original MNIST dataset is the lowest test cross-entropy error of 0.032757 and the highest test accuracy of 99.22%</p>
+<br>
+<p><strong>Explain why you cannot obtain a test error lower than 1%.</strong>
+The number of classes raised from 10 to 19, and the number of raw features are doubled in this question, which makes the real-world hypothesis more complex, thus it is natural that the classification performance got worse. If we assume that the features from a specific number are independent, as the class conditional assumption in naive Bayes, then the neural networks working on two digits would have the best test accuracy at $0.9922^2 \approx 0.9845$ to predict both digits correctly as two independent neural networks working on their own digit, which is less than 99%.</p>
 
 </body>
 </html>
