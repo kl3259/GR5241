@@ -324,7 +324,7 @@ The parameters are: $lr = 0.0005$, $seeds = \{42, 422, 442, 4222, 4422, 4442\}$,
 
 The learning curve of alexnet is shown above. 
 
-Alexnets have a unique learning curve, as their loss function on both training set and the validation set remain high at the first 5 - 10 epochs, and then rapidly decrease to a level under 0.5 average cross-entropy error and 10% average misclassification error on both training and validation set. In the whole process, alexnets are extremely stable and faced no overfitting. This demonstrates the powerful learning ability and good structure of alexnet. 
+The parameters are: $lr = 0.001$, $seeds = \{42, 422, 442, 4222, 4422, 4442\}$, $momentum = 0$, $N_{batch} = 100$, $N_{epochs} = 30$. Alexnets have unique learning curves, as their loss function on both training set and the validation set remain high at the first 5 - 10 epochs, and then rapidly decrease to a level under 0.5 average cross-entropy error and 10% average misclassification error on both training and validation set. In the whole process, alexnets are extremely stable and faced no overfitting. This demonstrates the powerful learning ability and well-defined structure of alexnet. 
 
 #### **(c)**
 <br>
@@ -333,32 +333,54 @@ Alexnets have a unique learning curve, as their loss function on both training s
 
 <img src = "./7(c)_lenet_alt_table.png" height = "150"/>
 
-Best lenet_alt is based on seed 42. 
+Best udpated lenet is the one with seed 42, it has the highest validation accuracy 93.16% and the lowest validation average cross-entropy error 0.240117. 
+
+<img src = "./param_best_model_lenet_alt_conv_kernel_0.png" height = "400"/>
+<img src = "./param_best_model_lenet_alt_sample_conv_kernel_1.png" height = "400"/>
+
+The visualization of two convolutional kernel in the best updated lenent are shown above. The second layer I choose only 6 samples to be displayed. They are similar with previous one in CNNs and lenets with some heterogeneous structures but also remain uncorrelated. 
 
 **AlexNet**
 
 <img src = "./7(c)_alexnet_table.png" height = "150"/>
 
+The best alexnet is from seed 4442 with the highest validation accuracy 96.84% and the lowest validation average cross-entropy error 0.142802. The difference between updated lenet and alexnet also confirms that alexnet is more powerful.
 
+<img src = "./param_best_model_alexnet_samples_conv_kernel_0.png" height = "400"/>
+<img src = "./param_best_model_alexnet_samples_conv_kernel_1.png" height = "400"/>
 
+The samples of convolutional kernels of the best parameters learned in alexnet are shown above. 
 
-
-
-
+The 12 $3 \times 3$ kernels also show different structures without any correlation, thus they are plausible.  
 
 #### **(d)**
 <br>
 
-
-
 **LeNet**
 
+<img src = "./learning_curve_lr_mmt_lenet_alt_Cross_entropy_error_LeNet_alt.png" height = "1200"/>
+<img src = "./learning_curve_lr_mmt_lenet_alt_Misclassification_error_LeNet_alt.png" height = "1200"/>
 
-![](./7(d)_lenet_alt_table.png)
+Above are the learning curves of updated lenet based on the best random seed 42 on the grid of learning rate and momentum. 
+
+The grid is $lr = \{0.0001, 0.0005, 0.001, 0.002, 0.005, 0.01\}$, $momentum = \{0.0, 0.5, 0.9\}$. We can see that the updated lenets are sensitive to learning rate. When learning rate is small(i.e. 0.0001) and without any acceleration of momentum, its learning curve would have a longer learning phase with gradient descent optimizations lasting about 30 epochs, which is clearly shown on the top left subplot. As it's a kind of CNN, it also has the property we discussed in the previous question. The convergence rate in this question is more strict on learning rate, if the learning rate is too large(i.e. 0.01), it even has a great fluctuation that makes it diverge after a temporary convergence. 
+
+<img src = "./7(d)_lenet_alt_table.png" height = "400"/>
+
+<br>
 
 **AlexNet**
 
-![](./7(d)_alexnet_table.png)
+<img src = "./learning_curve_lr_mmt_alexnet_Cross_entropy_error_AlexNet.png" height = "1200"/>
+<img src = "./learning_curve_lr_mmt_alexnet_Misclassification_error_AlexNet.png" height = "1200"/>
+
+The learning curve of grid search is on $lr  = \{0.0001, 0.0005, 0.001, 0.002, 0.005, 0.01\}$ and $momentum = \{0.0, 0.5, 0.9\}$. According to the subplots, alexnets are more sensitive to the learning rate even than the updated lenet in the previous question. Small learning rates like 0.0001 cannot let it converge in the first 30 epochs, while large learning rates like 0.005 and 0.01 cannot allow it to make optimization properly on this training dataset. The available range of learning rates for alexnet is the most narrow one we tried so far. Relatively large learning rates with large momentum would result in heavy fluctuations and divergence. 
+
+While the training and validation metrics are pretty close in cases that would converge, a good parameter combination for alexnet to learn is using small learning rate with high momentum to achieve stable and fast converge rate.  
+
+Some subplots show nothing or strange patterns, this might be the result of gradient explosion. 
+
+<img src = "./7(d)_alexnet_table.png" height = "400"/>
 
 
 <br>
@@ -378,6 +400,10 @@ Best lenet_alt is based on seed 42.
 **LeNet**
 
 
+
+
 **AlexNet**
+
+
 
 
