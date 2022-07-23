@@ -1,2 +1,2 @@
 # GR5241
- Statistical Machine Learning
+ Statistical Machine Learning & Intro to Deep Learning
